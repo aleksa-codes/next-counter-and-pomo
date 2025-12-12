@@ -4,7 +4,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className='w-full py-4 text-center text-muted-foreground'>
+    <footer className='text-muted-foreground w-full py-4 text-center'>
       © {currentYear} • Made with 💻 & ☕ by{' '}
       <Link
         href='https://github.com/aleksa-codes/next-counter-and-pomo'

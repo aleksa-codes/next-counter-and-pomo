@@ -107,7 +107,7 @@ export function Pomodoro() {
         <div className='relative mb-8 h-64 w-64'>
           <svg className='h-full w-full' viewBox='0 0 100 100'>
             <circle
-              className='stroke-current text-muted'
+              className='text-muted stroke-current'
               strokeWidth='5'
               cx='50'
               cy='50'
@@ -127,7 +127,7 @@ export function Pomodoro() {
               transform='rotate(-90 50 50)'
             />
           </svg>
-          <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-4xl font-bold'>
+          <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-4xl font-bold'>
             {settings.pomodoro ? `${minutes}:${seconds}` : count}
           </div>
         </div>
@@ -182,7 +182,7 @@ export function Pomodoro() {
           )}
         </Button>
 
-        <p className='text-center text-sm text-muted-foreground'>
+        <p className='text-muted-foreground text-center text-sm'>
           Focus for 30min. Don&apos;t forget a small break after!
         </p>
       </CardContent>
