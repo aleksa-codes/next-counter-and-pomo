@@ -32,10 +32,42 @@ export function Pomodoro() {
       if (count === '🏁') {
         resetState();
       } else {
-        setCount((prev) => (typeof prev === 'number' ? prev + value : 0));
+        setCount((prev) => {
+          if (typeof prev === 'number') {
+            const newCount = prev + value;
+            if (newCount === 0 && settings.pomodoro) {
+              const launchConfetti = () => {
+                confetti({
+                  particleCount: 150,
+                  startVelocity: 30,
+                  spread: 360,
+                  origin: { x: Math.random(), y: Math.random() - 0.1 },
+                });
+              };
+
+              launchConfetti();
+              setTimeout(launchConfetti, 500);
+              setTimeout(launchConfetti, 1000);
+
+              setSettings((prev) => ({
+                ...prev,
+                auto: false,
+                pomodoro: false,
+                workMessage: '✔️ Work done, great job!',
+              }));
+
+              setTimeout(() => confetti.reset(), 4000);
+
+              return '🏁';
+            } else {
+              return newCount;
+            }
+          }
+          return prev;
+        });
       }
     },
-    [count, resetState],
+    [count, resetState, settings.pomodoro],
   );
 
   const toggleSetting = useCallback((key: 'auto' | 'autoDown') => {
@@ -68,28 +100,6 @@ export function Pomodoro() {
       return () => clearInterval(interval);
     }
   }, [settings.auto, settings.autoDown, handleCountChange]);
-
-  useEffect(() => {
-    if (settings.pomodoro && count === 0) {
-      const launchConfetti = () => {
-        confetti({
-          particleCount: 150,
-          startVelocity: 30,
-          spread: 360,
-          origin: { x: Math.random(), y: Math.random() - 0.1 },
-        });
-      };
-
-      launchConfetti();
-      setTimeout(launchConfetti, 500);
-      setTimeout(launchConfetti, 1000);
-
-      setSettings((prev) => ({ ...prev, auto: false, pomodoro: false, workMessage: '✔️ Work done, great job!' }));
-      setCount('🏁');
-
-      setTimeout(() => confetti.reset(), 4000);
-    }
-  }, [count, settings.pomodoro]);
 
   const progressPercentage =
     typeof count === 'number' && typeof settings.maxCount === 'number'
